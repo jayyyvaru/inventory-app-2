@@ -3,12 +3,18 @@ const supabase = require('../config/supabase');
 
 const router = express.Router();
 
-// GET all products
+// GET all products (with optional location filter)
 router.get('/', async (req, res) => {
   try {
-    const { data, error } = await supabase
-      .from('products')
-      .select('*');
+    const { location_id } = req.query;
+
+    let query = supabase.from('products').select('*');
+
+    if (location_id) {
+      query = query.eq('location_id', location_id);
+    }
+
+    const { data, error } = await query;
 
     if (error) throw error;
 
@@ -19,16 +25,16 @@ router.get('/', async (req, res) => {
   }
 });
 
-// CREATE product
+// CREATE product (with location_id)
 router.post('/', async (req, res) => {
   console.log("🔥 POST HIT");
   console.log("BODY:", req.body);
 
-  const { name, price, quantity } = req.body;
+  const { name, price, quantity, location_id } = req.body;
 
   const { data, error } = await supabase
     .from('products')
-    .insert([{ name, price, quantity }])
+    .insert([{ name, price, quantity, location_id }])
     .select();
 
   console.log("SUPABASE DATA:", data);

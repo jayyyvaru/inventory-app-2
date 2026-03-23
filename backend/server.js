@@ -1,4 +1,5 @@
 require('dotenv').config();
+const locationRoutes = require('./routes/locationRoutes');
 const express = require('express');
 const cors = require('cors');
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/products', productRoutes);
+app.use('/locations', locationRoutes);
 
 app.get('/', (req, res) => {
   res.send('Inventory Server Running (Supabase)');
