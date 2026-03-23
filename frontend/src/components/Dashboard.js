@@ -5,7 +5,7 @@ function Dashboard() {
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState("all");
 
-  const API_URL = "http://localhost:5001/products";
+  const API_URL = import.meta.env.VITE_API_URL + "/products";
 
   useEffect(() => {
     fetchProducts();

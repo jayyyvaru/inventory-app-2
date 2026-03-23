@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
 function ProductList() {
@@ -7,8 +7,8 @@ function ProductList() {
   const [selectedLocation, setSelectedLocation] = useState("");
   const [editingProduct, setEditingProduct] = useState(null);
 
-  const API_URL = "http://localhost:5001/products";
-  const LOCATION_API = "http://localhost:5001/locations";
+  const API_URL = import.meta.env.VITE_API_URL + "/products";
+  const LOCATION_API = import.meta.env.VITE_API_URL + "/locations";
 
   useEffect(() => {
     fetchLocations();
@@ -16,22 +16,22 @@ function ProductList() {
 
   useEffect(() => {
     fetchProducts();
-  }, [selectedLocation]);
+  }, [fetchProducts]);
 
-  const fetchProducts = async () => {
-    try {
-      let url = API_URL;
+  const fetchProducts = useCallback(async () => {
+  try {
+    let url = API_URL;
 
-      if (selectedLocation) {
-        url = `${API_URL}?location_id=${selectedLocation}`;
-      }
-
-      const res = await axios.get(url);
-      setProducts(res.data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
+    if (selectedLocation) {
+      url = `${API_URL}?location_id=${selectedLocation}`;
     }
-  };
+
+    const res = await axios.get(url);
+    setProducts(res.data);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+  }
+}, [selectedLocation]);
 
   const fetchLocations = async () => {
     try {

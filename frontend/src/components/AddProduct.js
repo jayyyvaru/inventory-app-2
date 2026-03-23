@@ -13,8 +13,8 @@ function AddProduct() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const API_URL = "http://localhost:5001/products";
-  const LOCATION_API = "http://localhost:5001/locations";
+  const API_URL = import.meta.env.VITE_API_URL + "/products";
+  const LOCATION_API = import.meta.env.VITE_API_URL + "/locations";
 
   useEffect(() => {
     fetchLocations();

@@ -7,7 +7,7 @@ function Locations() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const API_URL = "http://localhost:5001/locations";
+  const API_URL = import.meta.env.VITE_API_URL + "/locations";
 
   useEffect(() => {
     fetchLocations();
